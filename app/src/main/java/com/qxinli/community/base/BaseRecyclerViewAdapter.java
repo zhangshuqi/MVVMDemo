@@ -172,13 +172,9 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Re
     }
 
     public abstract BaseRecyclerViewHolder onCreateMyViewHolder(ViewGroup parent, final int viewType);
-
-
     public interface OnItemClickListener<T> {
         void onItemClick(int position, T data);
     }
-
-
     @Override
     public void refresh(List newData) {
         if (newData == null) {
