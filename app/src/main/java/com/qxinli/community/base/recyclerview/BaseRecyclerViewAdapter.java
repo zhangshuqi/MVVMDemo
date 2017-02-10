@@ -1,4 +1,4 @@
-package com.qxinli.community.base;
+package com.qxinli.community.base.recyclerview;
 
 import android.app.Activity;
 import android.support.v7.widget.GridLayoutManager;

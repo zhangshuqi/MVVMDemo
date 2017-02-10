@@ -1,5 +1,6 @@
 package com.qxinli.community;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -31,10 +32,12 @@ public class MainActivity extends AppCompatActivity {
         binding.setViewClick(new ViewClickCallback() {
             @Override
             public void onClick(View view) {
-
+/*
                 info.setUserAge(String.valueOf(50));
                 info.setUsername("呵呵呵");
-                viewModel1.setCurrentSelect(1);
+                viewModel1.setCurrentSelect(1);*/
+                Intent intent = new Intent(MainActivity.this,ListActivity.class);
+                MainActivity.this.startActivity(intent);
             }
         });
 
