@@ -1,7 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:binding="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+   >
+    <data>
+        <variable
+            name="user"
+            type="com.qxinli.community.bean.UserInfo"/>
+        <variable
+            name="viewClick"
+            type="com.qxinli.community.callback.ViewClickCallback"/>
+        <variable
+            name="mainViewModel"
+            type="com.qxinli.community.MainViewModel"/>
+    </data>
+<LinearLayout
+
     android:id="@+id/activity_main"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -10,8 +27,47 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.qxinli.community.MainActivity">
 
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
-</RelativeLayout>
+        android:text="@{user.username}" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@{user.userAge}" />
+
+    <TextView
+        android:id="@+id/refresh"
+        android:onClick="@{viewClick::onClick}"
+        android:text="刷新"
+        android:textSize="20sp"
+        android:textColor="#002200"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <android.support.v7.widget.AppCompatImageView
+        android:tag="0"
+        android:id="@+id/image_home"
+        android:layout_width="24dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/select"
+        android:scaleType="center"
+        android:src="@mipmap/ic_home_black_24dp"
+        binding:homeTint="@{mainViewModel.currentSelect}"
+        />
+
+    <android.support.v7.widget.AppCompatImageView
+        android:tag="1"
+        android:id="@+id/image_home1"
+        android:layout_width="24dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/select"
+        android:scaleType="center"
+        android:src="@mipmap/ic_home_black_24dp"
+        binding:homeTint="@{mainViewModel.currentSelect}"
+        />
+</LinearLayout>
+</layout>

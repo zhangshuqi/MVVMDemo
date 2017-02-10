@@ -3,6 +3,10 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 24
     buildToolsVersion "24.0.3"
+    dataBinding {
+        enabled = true
+    }
+
     defaultConfig {
         applicationId "com.qxinli.community"
         minSdkVersion 15
@@ -38,4 +42,4 @@ dependencies {
     compile 'com.github.hss01248:PageStateManager:1.0.3'//页面状态管理
     compile 'com.github.hss01248:NetWrapper:1.0.1'//网络库,全新的api,内部已有eventbus,fastjson
 
-    }
+}
