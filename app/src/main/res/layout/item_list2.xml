@@ -4,7 +4,7 @@
     <data>
         <variable
             name="item"
-            type="com.qxinli.community.ListViewHolder2"></variable>
+            type="com.qxinli.community.ListViewHolder"></variable>
         <variable
             name="presenter"
             type="com.qxinli.community.base.BaseBindingPresenter"></variable>

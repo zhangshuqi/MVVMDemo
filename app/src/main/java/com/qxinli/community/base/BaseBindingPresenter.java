@@ -7,5 +7,5 @@ import android.databinding.BaseObservable;
  */
 
 public  interface BaseBindingPresenter<T> {
-    public void onItemClick(T itemData);
+     void onItemClick(T itemData);
 }

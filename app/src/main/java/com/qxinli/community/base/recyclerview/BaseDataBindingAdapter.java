@@ -20,15 +20,13 @@ public abstract class BaseDataBindingAdapter<T> extends RecyclerView.Adapter<Bin
     protected LayoutInflater mLayoutInflater;
     protected Decorator decorator;
 
+
     public BaseDataBindingAdapter(Context context) {
         mLayoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
-
-
     @Override
     public void onBindViewHolder(BindingViewHolder holder, int position) {
-
         if (mData == null) {
             throw new NullPointerException("BaseDataBindingAdapter  data is null");
         }
@@ -38,9 +36,9 @@ public abstract class BaseDataBindingAdapter<T> extends RecyclerView.Adapter<Bin
         //分配事件
         if (mPresenter != null)
             holder.getBinding().setVariable(BR.presenter, mPresenter);
+        holder.getBinding().executePendingBindings();
         if (decorator!=null)
             decorator.decorator(holder,position,getItemViewType(position));
-
     }
 
     @Override
