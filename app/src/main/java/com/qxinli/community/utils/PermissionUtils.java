@@ -8,13 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
-import com.mylhyl.acp.Acp;
-import com.mylhyl.acp.AcpListener;
-import com.mylhyl.acp.AcpOptions;
-import com.orhanobut.logger.Logger;
-
-import java.util.List;
-
 /**
  *
  * 需要添加依赖：
@@ -35,6 +28,7 @@ public class PermissionUtils {
      */
     private static void askPermission(final PermissionListener listener,String... permission){
         if (Build.VERSION.SDK_INT >= 23) {
+/*
             Acp.getInstance(UIUtils.getContext()).request(new AcpOptions.Builder()
                             .setPermissions(permission)
 //                .setDeniedMessage()
@@ -56,6 +50,7 @@ public class PermissionUtils {
 
                         }
                     });
+*/
         } else {
             // Pre-Marshmallow
             listener.onGranted();
@@ -250,7 +245,7 @@ public class PermissionUtils {
      * @param requestCode
      */
     private static void showRationaleDialog(final Activity activity, String desc, final String[] permissions, final int requestCode,boolean isCancle) {
-        DialogUtils.showRequestPermissionDialog(activity,desc,requestCode,isCancle,permissions);
+      //  DialogUtils.showRequestPermissionDialog(activity,desc,requestCode,isCancle,permissions);
 
     }
 
