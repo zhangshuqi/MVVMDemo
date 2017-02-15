@@ -1,16 +1,21 @@
 package com.qxinli.community;
 
+import android.Manifest;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.util.ArrayMap;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
+import com.qxinli.community.base.recyclerview.DividerItemDecoration;
 import com.qxinli.community.base.recyclerview.MultiTypeBindingAdapter;
 import com.qxinli.community.databinding.ActivityListBinding;
+import com.qxinli.community.utils.PermissionUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,15 +38,17 @@ public class ListActivity extends SwipeBackActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mData= new ArrayList();
-        SwipeBackLayout mSwipeBackLayout = getSwipeBackLayout();
-        mSwipeBackLayout.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
+   /*     SwipeBackLayout mSwipeBackLayout = getSwipeBackLayout();
+        mSwipeBackLayout.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);*/
 
-        Logger.init("QXINLI_ANDROID")         // default PRETTYLOGGER or use just init()
-                .methodCount(4)                 // default 2
-                .hideThreadInfo()               // default shown
-                .logLevel(LogLevel.FULL);      // default LogLevel.FULL
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_list);
+
+        mData= new ArrayList();
+
+        binding = DataBindingUtil.setContentView(this,  R.layout.activity_list);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this,
+                DividerItemDecoration.VERTICAL_LIST);
+        dividerItemDecoration.setDivider(R.drawable.news_divider_line_bg);
+      binding.setItemDecoration(dividerItemDecoration);
         binding.setLayoutManager(new LinearLayoutManager(this));
         List<ListViewHolder> data = new ArrayList<>();
         data.add(new ListViewHolder("张小胖","20"));
@@ -84,15 +91,15 @@ public class ListActivity extends SwipeBackActivity {
             }
         };
 
-        multiTypeBindingAdapter.addSingleHeadConfig(0,R.layout.head_item1,new ListViewHolder2("张小胖1111","020202"));
+        multiTypeBindingAdapter.addSingleHeadConfig(0, R.layout.head_item1,new ListViewHolder2("张小胖1111","020202"));
       //  multiTypeBindingAdapter.setSingleFootConfig(222,R.layout.head_item2,new ListViewHolder3("张小胖3333","121212"));
         multiTypeBindingAdapter.setMultiFootConfig(new MultiTypeBindingAdapter.AdapterTypeConfig() {
             @Override
             public Map<Integer, Integer> getTypeConfigKeyAndRes() {
                 Map<Integer,Integer>map = new HashMap();
-                map.put(222,R.layout.head_item2);
-                map.put(1111,R.layout.head_item2);
-                map.put(3333,R.layout.head_item2);
+                map.put(222, R.layout.head_item2);
+                map.put(1111, R.layout.head_item2);
+                map.put(3333, R.layout.head_item2);
                 return map;
             }
 
@@ -106,6 +113,31 @@ public class ListActivity extends SwipeBackActivity {
             }
         });
         binding.setAdapter(multiTypeBindingAdapter);
+
+
+
+
+      //  recycler_view.setItemAnimator(new DefaultItemAnimator());
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        PermissionUtils.onRequestPermissionsResult(requestCode,permissions,grantResults);
+    }
+    String [] mPerms;
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PermissionUtils.SETTINGS_REQ_CODE) {
+            //设置返回
+            if (mPerms != null) {
+                if (PermissionUtils.checkEachSelfPermission(this, mPerms)) {
+                  Logger.d("......1.111");
+                } else {
+                    Logger.d("222");
+                }
+            }
+        }
     }
 
 }

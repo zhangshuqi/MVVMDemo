@@ -36,24 +36,29 @@ public abstract class BaseDataBindingAdapter<T> extends RecyclerView.Adapter<Bin
         //分配事件
         if (mPresenter != null)
             holder.getBinding().setVariable(BR.presenter, mPresenter);
+        holder.getBinding().setVariable(BR.itemPosition, position);
         holder.getBinding().executePendingBindings();
-        if (decorator!=null)
-            decorator.decorator(holder,position,getItemViewType(position));
+        if (decorator != null)
+            decorator.decorator(holder, position, getItemViewType(position));
     }
 
     @Override
     public int getItemCount() {
         return mData.size();
     }
-    public  void  setPresenter(BaseBindingPresenter presenter){
-    mPresenter=presenter;
+
+    public void setPresenter(BaseBindingPresenter presenter) {
+        mPresenter = presenter;
     }
+
     public BaseBindingPresenter getBaseBindingPresenter() {
         return mPresenter;
     }
+
     public interface Decorator {
         void decorator(BindingViewHolder holder, int position, int viewType);
     }
+
     @Override
     public void refresh(List newData) {
         if (newData == null) {
@@ -112,10 +117,12 @@ public abstract class BaseDataBindingAdapter<T> extends RecyclerView.Adapter<Bin
         mData.add(position, data);
         notifyDataSetChanged();
     }
-    public int getLayoutRes(){
+
+    public int getLayoutRes() {
         return -1;
     }
-    public int getLayoutRes(int itemViewType){
+
+    public int getLayoutRes(int itemViewType) {
         return -1;
     }
 }

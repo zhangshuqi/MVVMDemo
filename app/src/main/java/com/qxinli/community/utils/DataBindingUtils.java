@@ -1,6 +1,7 @@
 package com.qxinli.community.utils;
 
 import android.databinding.BindingAdapter;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 
@@ -26,5 +27,10 @@ public class DataBindingUtils {
     @BindingAdapter("layoutManager")
     public static void setLayoutManager(RecyclerView rv, RecyclerView.LayoutManager layoutManager){
         rv.setLayoutManager(layoutManager);
+    }
+    @BindingAdapter("itemDecoration")
+    public static void setItemDecoration(RecyclerView rv, RecyclerView.ItemDecoration itemDecoration){
+        rv.addItemDecoration(itemDecoration);
+       rv.setItemAnimator(new DefaultItemAnimator());
     }
 }

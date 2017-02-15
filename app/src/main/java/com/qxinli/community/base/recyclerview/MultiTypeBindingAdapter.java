@@ -1,13 +1,10 @@
 package com.qxinli.community.base.recyclerview;
 
 import android.content.Context;
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
-
-import com.orhanobut.logger.Logger;
 import com.qxinli.community.BR;
 import com.qxinli.community.bean.MultiItemTypeBean;
 
