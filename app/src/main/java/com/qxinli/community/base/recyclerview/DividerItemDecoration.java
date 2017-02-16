@@ -4,9 +4,13 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
+
+import com.orhanobut.logger.Logger;
 
 /**
  * Created by Administrator on 2017/2/15 0015.
@@ -21,6 +25,8 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
     private Drawable mDivider;
     private Context mContext;
     private int mOrientation;
+    private boolean headerView;
+    private boolean footerView;
 
     public DividerItemDecoration(Context context, int orientation) {
         //        final TypedArray a = context.obtainStyledAttributes(ATTRS);
@@ -29,6 +35,7 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
         mContext = context;
         setOrientation(orientation);
     }
+
     /**
      * 设置分割线的显示样式
      *
@@ -45,10 +52,28 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
         mOrientation = orientation;
     }
 
+
     @Override
-    public void onDraw(Canvas c, RecyclerView parent) {
+    public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
+        super.onDraw(c, parent, state);
+
         if (mOrientation == VERTICAL_LIST) {
-            drawVertical(c, parent);
+            Log.d("----", "onDraw");
+            final int childCount = parent.getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                final View view = parent.getChildAt(i);
+                int position = parent.getChildAdapterPosition(view);
+                RecyclerView.Adapter adapter = parent.getAdapter();
+                if (adapter instanceof MultiTypeBindingAdapter) {
+                    MultiTypeBindingAdapter multiTypeBindingAdapter = (MultiTypeBindingAdapter) adapter;
+                    headerView = multiTypeBindingAdapter.isHeaderView(position);
+                    footerView = multiTypeBindingAdapter.isFooterView(position);
+                    if (headerView || footerView) {
+                        continue;
+                    }
+                    drawVertical(c, parent, view);
+                }
+            }
         } else {
             drawHorizontal(c, parent);
         }
@@ -56,20 +81,16 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
     }
 
 
-    public void drawVertical(Canvas c, RecyclerView parent) {
+    public void drawVertical(Canvas c, RecyclerView parent, View child) {
         final int left = parent.getPaddingLeft();
         final int right = parent.getWidth() - parent.getPaddingRight();
+        android.support.v7.widget.RecyclerView v = new android.support.v7.widget.RecyclerView(parent.getContext());
+        final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
+        final int top = child.getBottom() + params.bottomMargin;
+        final int bottom = top + mDivider.getIntrinsicHeight();
+        mDivider.setBounds(left, top, right, bottom);
+        mDivider.draw(c);
 
-        final int childCount = parent.getChildCount();
-        for (int i = 0; i < childCount; i++) {
-            final View child = parent.getChildAt(i);
-            android.support.v7.widget.RecyclerView v = new android.support.v7.widget.RecyclerView(parent.getContext());
-            final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
-            final int top = child.getBottom() + params.bottomMargin;
-            final int bottom = top + mDivider.getIntrinsicHeight();
-            mDivider.setBounds(left, top, right, bottom);
-            mDivider.draw(c);
-        }
     }
 
     public void drawHorizontal(Canvas c, RecyclerView parent) {
@@ -87,10 +108,26 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
         }
     }
 
+
     @Override
-    public void getItemOffsets(Rect outRect, int itemPosition, RecyclerView parent) {
+    public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+        super.getItemOffsets(outRect, view, parent, state);
+        Log.d("----", "getItemOffsets");
+
         if (mOrientation == VERTICAL_LIST) {
-            outRect.set(0, 0, 0, mDivider.getIntrinsicHeight());
+            int position = parent.getChildAdapterPosition(view);
+            RecyclerView.Adapter adapter = parent.getAdapter();
+            if (adapter instanceof MultiTypeBindingAdapter) {
+                MultiTypeBindingAdapter multiTypeBindingAdapter = (MultiTypeBindingAdapter) adapter;
+                headerView = multiTypeBindingAdapter.isHeaderView(position);
+                footerView = multiTypeBindingAdapter.isFooterView(position);
+                if (headerView || footerView) {
+                    return;
+                }
+                outRect.set(0, 0, 0, mDivider.getIntrinsicHeight());
+            } else {
+                outRect.set(0, 0, 0, mDivider.getIntrinsicHeight());
+            }
         } else {
             outRect.set(0, 0, mDivider.getIntrinsicWidth(), 0);
         }

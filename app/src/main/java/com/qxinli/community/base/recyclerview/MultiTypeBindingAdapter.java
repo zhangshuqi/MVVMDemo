@@ -144,7 +144,7 @@ public class MultiTypeBindingAdapter extends BaseDataBindingAdapter {
         return false;
     }
 
-    private boolean isFooterView(int position) {
+    public boolean isFooterView(int position) {
         if (footKeyList == null || footKeyList.size() == 0) {
             return false;
         } else if (footKeyList.size() == 0) {
