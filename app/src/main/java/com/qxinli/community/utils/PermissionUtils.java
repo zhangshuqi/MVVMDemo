@@ -151,16 +151,9 @@ public class PermissionUtils {
         mRequestCode = requestCode;
         mListener = listener;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-
             if (object == null) {
                 throw new IllegalArgumentException("object parameters must be the activity or fragments ");
             }
-      /*      boolean shouldShowRationale = false;
-            for (String perm : permissions) {
-                shouldShowRationale =
-                        shouldShowRationale || shouldShowRequestPermissionRationale(object, perm);
-            }*/
-            // 检查是否声明了权限
             requestPermissions(object, desc, permissions, requestCode, isCancle);
         } else {
             if (mListener != null) {

@@ -30,7 +30,9 @@ public class DataBindingUtils {
     }
     @BindingAdapter("itemDecoration")
     public static void setItemDecoration(RecyclerView rv, RecyclerView.ItemDecoration itemDecoration){
-        rv.addItemDecoration(itemDecoration);
-       rv.setItemAnimator(new DefaultItemAnimator());
+        if(itemDecoration!=null) {
+            rv.addItemDecoration(itemDecoration);
+        }
+
     }
 }

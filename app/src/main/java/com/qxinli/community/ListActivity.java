@@ -4,10 +4,12 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.util.ArrayMap;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 
@@ -20,6 +22,7 @@ import com.qxinli.community.base.recyclerview.MultiTypeBindingAdapter;
 import com.qxinli.community.base.recyclerview.SingleTypeBindingAdapter;
 import com.qxinli.community.databinding.ActivityListBinding;
 import com.qxinli.community.utils.PermissionUtils;
+import com.qxinli.community.utils.PermissionUtils2;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,14 +47,16 @@ public class ListActivity extends SwipeBackActivity {
         super.onCreate(savedInstanceState);
    /*     SwipeBackLayout mSwipeBackLayout = getSwipeBackLayout();
         mSwipeBackLayout.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);*/
-
+        PermissionUtils2.requestPermissions(this,"需要权限",10,Manifest.permission.ACCESS_COARSE_LOCATION);
 
         mData = new ArrayList();
         binding = DataBindingUtil.setContentView(this, R.layout.activity_list);
-        DividerGridItemDecoration dividerItemDecoration = new DividerGridItemDecoration(this);
-        dividerItemDecoration.setDivider(R.drawable.red_point);
+        Drawable drawable = this.getResources().getDrawable(R.drawable.red_point);
+        DividerGridItemDecoration dividerItemDecoration = new DividerGridItemDecoration(3,drawable);
+       // dividerItemDecoration.setDivider();
         binding.setItemDecoration(dividerItemDecoration);
-        GridLayoutManager manager = new GridLayoutManager(this,3,GridLayoutManager.VERTICAL,true);
+
+        GridLayoutManager manager = new GridLayoutManager(this,3,GridLayoutManager.VERTICAL,false);
         binding.setLayoutManager(manager);
         List<ListViewHolder> data = new ArrayList<>();
         data.add(new ListViewHolder("张小胖", "20"));
@@ -126,7 +131,7 @@ public class ListActivity extends SwipeBackActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        PermissionUtils.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        PermissionUtils2.onRequestPermissionsResult(requestCode, permissions, grantResults,this);
     }
 
     String[] mPerms;
